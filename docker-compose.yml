@@ -1,0 +1,22 @@
+services:
+  web:
+    build: .
+    container_name: library_web
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_ENVIRONMENT=local
+      - SECRET_KEY=django-insecure-docker-dev-key
+      - DEBUG=True
+      - DB_ENGINE=postgresql
+      - DB_NAME=library_db
+      - DB_USER=library_user
+      - DB_PASSWORD=Library@123
+      - DB_HOST=host.docker.internal
+      - DB_PORT=5432
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
